@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestField</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h4{
+            margin: 5px;
+        }
+        #Gift{
+            position: absolute;
+            display: inline;
+            top: 20%;
+            bottom: 25%;
+            z-index: 2;
+            max-width: fit-content;
+        }
+        #Example{
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <h4>disegni concentrici</h4>
+
+    <canvas width="500px" height="500px" id="Example">
+        examples of canva graphics
+
+    </canvas>
+    <canvas width="300px" height="300px" id="Gift">
+        examples of canva graphics with Nerd reference
+
+    </canvas>
+    <script>
+        const img = new Image();
+        img.src = "assets/Hogwarts_Crest.png";
+
+        const ctx = document.getElementById("Example");
+            const background = ctx.getContext("2d");
+
+
+        img.onload= ()=> {
+            
+            //creo un elemento canva temporaneo, che non verrà inserito nella pagina
+            const bozza = document.createElement("canvas");
+            //assegno le dimensioni prendendole dall'immagine stessa
+            bozza.width = img.width; bozza.height = img.height;
+            const bozzaCtx = bozza.getContext("2d");
+            bozzaCtx.drawImage(img, 0, 0);
+            //devo usare le dimensioni dell'elemento temporaneo invece dei pixel, perché non è in pagina
+            let filter = bozzaCtx.getImageData(0, 0, bozza.width, bozza.height);
+            let imageData = filter.data;
+
+            for (let i = 0; i < imageData.length; i +=4) {
+                const red = imageData[i];
+                const green = imageData[i+1];
+                const blue = imageData[i+2];
+                // i+4 è il canale alpha
+                //ora si rimescolano i valori dei canali per creare il filtro
+                const seppiaRed = red*0.393 + green*0.769 + blue*0.189;
+                const seppiaGreen = red*0.349 + green*0.686 + blue*0.168;
+                const seppiaBlue = red*0.272 + green*0.534 + blue*0.131;
+                //riassegnare i valori agli indici
+                imageData[i] = seppiaRed;
+                imageData[i+1] = seppiaGreen;
+                imageData[i+2] = seppiaBlue;
+            };
+
+            bozzaCtx.putImageData(filter, 0, 0);
+            //caricare l'immagine dall'elemento bozza
+            const emblem= background.createPattern(bozza, 'repeat');
+
+            background.lineWidth = 4;
+            background.fillStyle= emblem;
+            background.strokeStyle = "gold";
+            background.rect(0, 0, 500, 500);
+            background.fill();
+            background.stroke();
+        }  
+    </script>
+    <script>
+        const cameo = document.getElementById("Gift");
+        const baseCircle = cameo.getContext("2d");
+        const stone = cameo.getContext("2d");
+        const mantle = cameo.getContext("2d");
+        const wand = cameo.getContext("2d");     
+        
+        const x = 150 , y = 150 , r = 140;
+        const r2 = r-r*(Math.sin(+Math.PI/1.2));
+
+        const fill = baseCircle.createRadialGradient(x, y, 5, x, y, r2);
+        fill.addColorStop(0.2, "#333101");
+        fill.addColorStop(0.5, "purple");
+        fill.addColorStop(0.9, "#333101");
+
+        const emerge = baseCircle.createRadialGradient(x, y, 5, x, y, r);
+            emerge.addColorStop(0.4, "rgba(136, 4, 150, 0.5)");
+            emerge.addColorStop(0.8, "rgba(136, 4, 150, 0.1)");
+
+        baseCircle.beginPath();
+            baseCircle.lineWidth = 0; 
+            baseCircle.strokeStyle= "rgba(136, 4, 150, 0.1)";
+            baseCircle.fillStyle= emerge;
+            baseCircle.arc(x, y, r, 0, 2*Math.PI);
+            baseCircle.fill();
+        baseCircle.stroke();
+
+        baseCircle.shadowOffsetX = 2;
+        baseCircle.shadowOffsetY = 1;
+        baseCircle.shadowBlur =2;
+        baseCircle.shadowColor = "#CC8800";
+        
+        mantle.beginPath();
+            mantle.lineWidth = 8;
+            mantle.strokeStyle = "gold";
+            mantle.moveTo(x, y-r);
+            mantle.lineTo(x+r*(Math.cos(Math.PI/6)),
+                y+r*(Math.sin(Math.PI/6)));
+            mantle.lineTo(x+r*(Math.cos(Math.PI/1.2)), 
+                y+r*(Math.sin(+Math.PI/1.2))); 
+            // 180-30= 180/1,2
+            mantle.closePath();
+        mantle.stroke();
+
+        stone.beginPath();
+            stone.lineWidth = 8;
+            stone.strokeStyle = "gold";
+            stone.fillStyle= fill;
+            stone.arc(x, y, r2, 0, 2*Math.PI);
+            stone.fill();
+        stone.stroke();
+
+        wand.beginPath();
+            wand.lineCap = "round"
+            wand.lineWidth = 8;
+            wand.strokeStyle = "gold";
+            wand.moveTo(x, y-r);
+            wand.lineTo(x, y+r*(Math.sin(Math.PI/1.2)));
+        wand.stroke();
+    </script>
+</body>
+
+</html>

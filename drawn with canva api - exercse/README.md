@@ -1,0 +1,2 @@
+here you can find an html exercise in wich i draw a simple composition of shapes through the canva api.
+The resulting image has to be considered as an fan-made art piece about the Death Gift's emblem from Harry Potter.
