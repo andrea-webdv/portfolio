@@ -10,6 +10,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            background-color: hwb(0 17% 83%);
         }
         h4{
             margin: 5px;
@@ -29,19 +30,18 @@
 </head>
 
 <body>
-    <h4>disegni concentrici</h4>
 
     <canvas width="500px" height="500px" id="Example">
         examples of canva graphics
 
     </canvas>
     <canvas width="300px" height="300px" id="Gift">
-        examples of canva graphics with Nerd reference
+        examples of canva shape draw, with a reference to Harry Potter
 
     </canvas>
     <script>
         const img = new Image();
-        img.src = "assets/Hogwarts_Crest.png";
+        img.src = "./assets/Hogwarts_Crest.png";
 
         const ctx = document.getElementById("Example");
             const background = ctx.getContext("2d");

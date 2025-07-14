@@ -1,8 +1,23 @@
 # portfolio
-Here I publish projects developed independently, those can be copies of existing internet pages (indicated in the folder title as 'page title - copy' ), made for presentation purposes;  or original web app prortotypes. 
+Here I publish my projects: developed autonomously, up to verify and show my technical skills.  
 
-Contact me for collaborations, job offers or commercial proposal about any project; 
-I will be happy to send you my CV and organize a meeting.
+#### content
+You can find mainly two kinds of projects:
+
+- __Original sites or web-app__  
+    prototypes of pjojects i found useful bot for train myself with development instruments, and for satisfy daily needs;  
+    - working prototypes can be recognized by the subscript `-runnable`.
+    - under-development and not working project can be recognized by the subscript `-develop`.
+- __Copies of existing internet pages__  
+    made with the only purpose of show my technical and design skills;   
+    - indicated by the subscript `-copy`. 
+- __single-page projects__  
+    projects of secondary importance, made to focus my studies on a precise tecknology; usally suggested in the folder name.
+    - indicated by the subscript `-exercise`. 
+
+#### Please, contact me for collaborations, job offers or commercial proposal about any project
+
+I will be glad to send you my CV and date a meeting.
 e-mail: [a.andrea.webdv@gmail.com](mailto:a.andrea.webdv@gmail.com)
 
 
