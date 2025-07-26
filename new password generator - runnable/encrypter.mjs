@@ -16,7 +16,14 @@ function encoder(arr8){
             if (n < 33) {
                 n += 33;
                 return checker(n)
-            } else if(n > 122) {
+            } else if(n >= 58 && n < 61 ){
+                n = n - 10;
+                return checker(n)
+            }else if(n >= 61 && n < 65 ){
+                n += 10;
+                return checker(n)
+            }
+            else if(n > 122) {
                 n = n - 100;
                 return checker(n)
             }
