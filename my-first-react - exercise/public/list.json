@@ -1,0 +1,38 @@
+{
+"Getting started with react":
+["what is react?",
+"setting up your enviroment",
+"undersanding jsx",
+"creating your first component"],
+
+"react fundamentals":
+["props and state",
+"handling events",
+"conditional rendering",
+"list and keys"],
+
+"advanced concepts":
+["introduction to hooks",
+"using useState and useEffect",
+"context API",
+"error Boundaries"],
+
+"working with APIs":
+["fetching Data with Fetch API",
+"fetching Data with Axios",
+"Displaying Fetched Data"],
+
+"routing in React":
+["introduction to React Router",
+"Dynamic Routig"],
+
+"State Management":
+["introduction to Redux",
+"setting up Redux",
+"using Redux with React components"],
+
+"Styling in React":
+["inline Styles",
+"css Modules",
+"styled componenets"]
+}
