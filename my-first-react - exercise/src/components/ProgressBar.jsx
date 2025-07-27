@@ -4,6 +4,8 @@ import ProgressKeeper from './ProgresContext';
 
 export default function ProgressBar(){
     const context = useContext(ProgressKeeper);
+     console.log("from ProgresssBar, progress obj: ", context.progress);
+     
     let done = context.progress.done
     let total = context.progress.total
 

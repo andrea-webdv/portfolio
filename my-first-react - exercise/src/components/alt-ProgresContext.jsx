@@ -1,6 +1,6 @@
-import { createContext, useMemo, useState } from "react";
+import { createContext, useCallback, useMemo, useState } from "react";
 
-export const ProgressContext = createContext({
+const progressContext = createContext({
     status: {},
     progress: {},
     registerStatus: () => {},
@@ -8,12 +8,13 @@ export const ProgressContext = createContext({
 });
 
 
-function ProgressKeeper({children}){
+function ProgressKeeper(children){
     const [status, setStatus] = useState({});
     const [progress, setProgress] = useState({ total:0, done:0});
+    
 
     //functions to set che progress provider
-    const registerStatus = ({data})=>{
+    const registerStatus= useCallback(({data})=>{
         setStatus((last)=>{
             if (Object.hasOwn(last, data.name)) {
                 last.name = last.value;
@@ -37,32 +38,31 @@ function ProgressKeeper({children}){
             newSate.done = doneCount;
             return newSate
         })
-    };
+    },[status]);
+    
 
-    const registerProgress= (total, done) => {
+    const registerProgress= useCallback((total, done) => {
         setProgress((last) => {
             let newSate = {total:last.total, done: last.done};
             if(total) {newSate.total = total};
             if(done) {newSate.done = done};
             return newSate
         })
-    };
-
+    },[])
 
     //memo of the context
-    const contextValue = useMemo(()=>{return{
+    const contextValue = useMemo(()=>{return {
         status: status, 
         registerStatus: registerStatus, 
         progress: progress, 
         registerProgress: registerProgress
-    }},[status, progress]); 
-    
+    }}, [status, registerStatus, progress, registerProgress]
+    );
 
-    return (        
-        <ProgressContext.Provider value={contextValue}>
+    return (
+        <progressContext.Provider value={contextValue}>
             {children}
-        </ProgressContext.Provider> 
-
+        </progressContext.Provider>
     )
 }
 export default ProgressKeeper //riscrivere l'uso di parametri e metodi in listPage e progressbar

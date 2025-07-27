@@ -29,13 +29,6 @@ button{
   height: 40vmin;
   pointer-events: none;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -46,28 +39,42 @@ button{
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
 .App-link {
   color: #61dafb;
+  text-transform: capitalize;
+  text-decoration: none;
 }
-
-.catfact{
-    font-size: small;
-    font-family: 'Comic Sans', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color:rgb(238, 210, 31);
-    position: absolute;
-    position-anchor: --center;
+#catbox{
+  font-size: small;
+  font-family: 'Comic Sans', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color:rgb(238, 210, 31);
+  position: absolute;
+  position-anchor: --center;
   bottom: anchor(top);
   left:anchor(left);
-  transform: rotate(-24deg) translate(24rem, 2rem);
-
+  transform: rotate(-24deg) translate(24rem, 2rem)
+}
+#catfact{
+  transform:  scale(1);
+  animation: bounce 2s alternate infinite linear;
 }
 
+@keyframes bounce {
+  0% {transform: scale(1.2);}
+  50%{transform: scale(1.4);}
+  100% {transform: scale(1.2);}
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
   }
 }

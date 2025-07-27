@@ -6,6 +6,7 @@ import FetchFacts from './components/catFact';
 import ListPage from './components/ListPage';
 import ProgressBar from './components/ProgressBar';
 import ProgressKeeper from './components/ProgresContext';
+import { ErrorBoundary } from './components/React_ErrorBoundary';
 
 function clock () {
     let time = {};
@@ -42,11 +43,9 @@ function App() {
                     minutes: actualTime.minutes,
                     seconds: actualTime.seconds
                 })
-    
                 return
                 // console.log("time state: ", time)
             },1000);
-            
             return () => {clearInterval(clockinterval)};
         }
     },[time.seconds, pageNumber])
@@ -62,22 +61,21 @@ function App() {
                         <img src={logo} className="App-logo" alt="logo" />
                         <div>
                         <p>
-                        Edit <code>src/App.jsx</code> and save to reload.
+                        It's time to learn <code>React</code> 
                         </p>
                         <p className='test'>
                             PS: Hello World!
                         </p>
                         </div>
-                        <FetchFacts time={time} />
-                            {/* i replace the link wit a button, just to facilitate tests*/}
+                        <FetchFacts time={time}/>
+                        <div style={{display:'flex', gap:"3rem"}}>
                         <button
                             className="App-link"
                             type='button'
                             onClick={ ()=> setpageNumber(2) }
                         >
-                        It's time to learn React
+                        check the progress!
                         </button>
-                        <hr style={{color:"blue", height:"1rem"}}/>
                         <a
                         className="App-link"
                         href="https://reactjs.org"
@@ -85,8 +83,9 @@ function App() {
                         rel="noopener noreferrer"
                             onClick={ ()=> setpageNumber(2) }
                         >
-                        It's time to learn React
+                        read the documentation!
                         </a>
+                        </div>
                         <br></br>
                         <div id="clockScreen">
                             {/*i will use the syntax <Clock time={time} /> instead of {Clock(time)}*/}
@@ -107,7 +106,7 @@ function App() {
                             className="App-link"
                             onClick={ ()=> setpageNumber(1) }
                         >home</button>
-                        <ProgressBar defer></ProgressBar>
+                        <ProgressBar defer style={{position:"absolute"}}></ProgressBar>
                     </header>
                     
                 </div>
@@ -120,9 +119,11 @@ function App() {
     /* the return hold the jsx that will be used to build up the actual html page */
     
     return(
+        <ErrorBoundary>
         <ProgressKeeper>
             {content}
         </ProgressKeeper>
+        </ErrorBoundary>
     )
 }
 

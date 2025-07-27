@@ -2,11 +2,9 @@ import ListFetcher from "./listFetcher";
 import "./../styles/list.css"
 
 import { useContext} from "react";
-import ProgressKeeper from "./ProgresContext";
-
+import { ProgressContext } from "./ProgresContext";
 
 let total;
-
 
 const url = '/list.json';
 
@@ -16,19 +14,18 @@ function ListPage () {
     
     const jsx = [];
     
+    let context = useContext(ProgressContext); 
+     console.log("log del context: ", context);
+     console.dir("dir del context: ", context);
+/* 
     for(const argument in list) {
-        console.log("chiavi: ", argument)
-        console.log("lezioni: ", list[argument]);
         let lessons = list[argument]
 
-        jsx.push(LessonItems(argument, lessons));
+        jsx.push(LessonItems(argument, lessons,context));
     }
-    let totalCount = useContext(ProgressKeeper); 
-     console.log("log del context: ", totalCount);
-     console.dir("dir del context: ", totalCount);
-    totalCount.registerProgress(total) 
-    //jsx.length do not consider the total of single lesons
 
+    context.registerProgress(total) 
+ */
     return(
         <dl>
            {jsx}
@@ -38,12 +35,9 @@ function ListPage () {
 }
 
 
-function LessonItems(title, lessons){
+function LessonItems(title, lessons, context){
     let index = 0
 
-    let backup = useContext(ProgressKeeper);
-    let backupRegister = backup.registerStatus;
-    
     return(
         <div className="chapter">
             <dt key={title}>{title}</dt>
@@ -59,13 +53,13 @@ function LessonItems(title, lessons){
                             name={key}
                             type="checkbox"
                             className="progresschecker"
-                            checked= {backup.status.name || false}
+                            checked= {context.status.name || false}
                             onChange={ (e)=>{
                                 let data = {
                                     name : e.target.name,
                                     checked : e.target.checked
                                 };
-                                backupRegister(data)
+                                context.registerStatus(data)
                             }}
                         />
                             {lesson}

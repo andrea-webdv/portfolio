@@ -3,16 +3,16 @@ import { useEffect, useState } from "react";
 
 function FetchFacts({time}) {
     let [catFact, setCatFact] = useState("catFacts here!");
-    let[halfMinute, setHalfMinute] = useState('00');
+
+    let[halfMinute, setHalfMinute] = useState(time.seconds);
 
     useEffect(()=>{
-        if(time.seconds !== "00"){
-            if (time.seconds === halfMinute + 30){
+            if (halfMinute === time.seconds + 30){
                 setHalfMinute(time.seconds)
-            }else if (time.seconds === halfMinute - 30){
+            }else if (halfMinute === time.seconds - 30){
+
                 setHalfMinute(time.seconds)
             }
-        }
     },[time.seconds])
 
 
@@ -21,30 +21,17 @@ function FetchFacts({time}) {
         axios.get("https://catfact.ninja/fact?max_length=64")
             .then(res =>{
                 setCatFact(res.data.fact);
-            });
-        
-            console.log("fetching fact at ", time.seconds);
-            
+            });    
     }
     },[halfMinute]);
-    
-/*     useEffect(()=>{
-        if(time.minutes){
-            fetch("https://catfact.ninja/fact?max_length=64")
-                .then(res => res.json())
-                .then(data =>{
-                    setCatFact(data.fact);
-                });
-            
-             console.log("fetching fact at ", time.minutes);
-             
-        }
-    },[time.minutes]); */
 
 
+    //add a callback for add and remove after 1sec an animation class
 
     return(
-        <p className="catfact">{catFact}</p>
+        <div id="catbox">
+            <p id="catfact">{catFact}</p>
+        </div>
     ) 
 }
 
