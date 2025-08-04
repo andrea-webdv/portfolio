@@ -5,8 +5,8 @@ import Clock from './components/clock';
 import FetchFacts from './components/catFact';
 import ListPage from './components/ListPage';
 import ProgressBar from './components/ProgressBar';
-import ProgressKeeper from './components/ProgresContext';
 import { ErrorBoundary } from './components/React_ErrorBoundary';
+import ProgressKeeper from './components/ProgresContext';
 
 function clock () {
     let time = {};
@@ -51,7 +51,7 @@ function App() {
     },[time.seconds, pageNumber])
 
     let content;
-     
+
         switch (pageNumber) {
             case (1):
                 content =
@@ -106,7 +106,7 @@ function App() {
                             className="App-link"
                             onClick={ ()=> setpageNumber(1) }
                         >home</button>
-                        <ProgressBar defer style={{position:"absolute"}}></ProgressBar>
+                        <ProgressBar style={{position:"absolute"}}></ProgressBar>
                     </header>
                     
                 </div>
@@ -120,9 +120,9 @@ function App() {
     
     return(
         <ErrorBoundary>
-        <ProgressKeeper>
-            {content}
-        </ProgressKeeper>
+            <ProgressKeeper>
+                {content}
+            </ProgressKeeper> 
         </ErrorBoundary>
     )
 }

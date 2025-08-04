@@ -1,61 +1,51 @@
 import { createContext, useMemo, useState } from "react";
 
+
+// This is the initial context setup. It provides default values for progress and functions.
 export const ProgressContext = createContext({
-    status: {},
     progress: {},
     registerStatus: () => {},
     registerProgress: () => {}
 });
 
-
-function ProgressKeeper({children}){
-    const [status, setStatus] = useState({});
+// verisione del provider con scrittura su localStorage (modifiche apportate anche la ProgressBar.jsx e ListPage.jsx)
+function ProgressKeeper({children}){  
+    // dubbio: meglio conservare i dati nel context con useState o useRef?
     const [progress, setProgress] = useState({ total:0, done:0});
+    /*const progress = useRef({ total:0, done:0}); */ 
 
-    //functions to set che progress provider
-    const registerStatus = ({data})=>{
-        setStatus((last)=>{
-            if (Object.hasOwn(last, data.name)) {
-                last.name = last.value;
-                return last
-            } else {
-                last[toString(data.name)] = data.value
-                return last
+    function registerProgress (operation) {
+        let totalLength = localStorage.length
+        let doneCount = 0;
+
+        if (operation === "total") {
+           setProgress((last) => {
+            let newState = {total:totalLength, done: last.done};
+            return newState
+        }) 
+
+        };
+        if (operation === "data") {
+            for (let index = 0; index < totalLength; index++) {
+                let key = localStorage.key(index);
+                let data = localStorage.getItem(key);
+                if (data) {
+                    doneCount += 1;
+                }
             }
-        })
-
-        let statusRead = Object.values(status);
-        let doneCount = 0
-        
-        statusRead.forEach(record => {
-            if (record){ 
-                doneCount += 1;
-            }
-        })
-        setProgress((last) => {
-            let newSate = {total:last.total, done: last.done};
-            newSate.done = doneCount;
-            return newSate
-        })
-    };
-
-    const registerProgress= (total, done) => {
-        setProgress((last) => {
-            let newSate = {total:last.total, done: last.done};
-            if(total) {newSate.total = total};
-            if(done) {newSate.done = done};
-            return newSate
-        })
+            setProgress((last) => {
+            let newState = {total:last.total, done: doneCount};
+            return newState
+        }) 
+        };
     };
 
 
     //memo of the context
     const contextValue = useMemo(()=>{return{
-        status: status, 
-        registerStatus: registerStatus, 
-        progress: progress, 
+        progress: progress.current, 
         registerProgress: registerProgress
-    }},[status, progress]); 
+    }},[progress]); 
     
 
     return (        
@@ -65,4 +55,4 @@ function ProgressKeeper({children}){
 
     )
 }
-export default ProgressKeeper //riscrivere l'uso di parametri e metodi in listPage e progressbar
+export default ProgressKeeper 

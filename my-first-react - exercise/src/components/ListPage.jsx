@@ -1,31 +1,37 @@
 import ListFetcher from "./listFetcher";
 import "./../styles/list.css"
-
-import { useContext} from "react";
+import React, { useRef } from "react";
+import { useContext, useEffect} from "react";
 import { ProgressContext } from "./ProgresContext";
-
-let total;
 
 const url = '/list.json';
 
 function ListPage () {
     const list = ListFetcher({url}) 
-    console.log("list in component: ", list);
+    const done = useRef(false);
+     console.log("compilation check:", done);
+     
     
     const jsx = [];
     
-    let context = useContext(ProgressContext); 
-     console.log("log del context: ", context);
-     console.dir("dir del context: ", context);
-/* 
+    let context = useContext(ProgressContext);
+    
+ 
     for(const argument in list) {
         let lessons = list[argument]
 
-        jsx.push(LessonItems(argument, lessons,context));
+        jsx.push(LessonItems(argument, lessons));
     }
 
-    context.registerProgress(total) 
- */
+    // Register the total data when the component mounts
+    done.current = true;
+    useEffect(()=>{
+        if(done) {
+            context.registerProgress("total");
+        }
+    }, [done]);
+
+
     return(
         <dl>
            {jsx}
@@ -35,8 +41,9 @@ function ListPage () {
 }
 
 
-function LessonItems(title, lessons, context){
-    let index = 0
+function LessonItems(title, lessons){
+    let index = 0;
+    let context = useContext(ProgressContext);
 
     return(
         <div className="chapter">
@@ -44,8 +51,13 @@ function LessonItems(title, lessons, context){
             {
             lessons.map(lesson => {
                 let key =  `${title}_${index}`;
+                 
                 index += 1;
-                total += 1;
+
+                // VERSIONE CON LOCALSTORAGE
+                let backup= localStorage.getItem(key); //leggere il valore e rendere booleano true or falsein base a === "true"
+                let backupBoolean = backup === "true" ? true : false;
+
                 return(
                     <dd key={key}>
                         <label className="lesson" htmlFor={key}>
@@ -53,13 +65,11 @@ function LessonItems(title, lessons, context){
                             name={key}
                             type="checkbox"
                             className="progresschecker"
-                            checked= {context.status.name || false}
+                            checked= {backupBoolean}
                             onChange={ (e)=>{
-                                let data = {
-                                    name : e.target.name,
-                                    checked : e.target.checked
-                                };
-                                context.registerStatus(data)
+                                // VERSIONE CON LOCALSTORAGE
+                                localStorage.setItem(key, e.target.checked);
+                                context.registerProgress("data");
                             }}
                         />
                             {lesson}

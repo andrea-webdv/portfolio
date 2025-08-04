@@ -33,7 +33,7 @@ import axios from "axios";
                 })
         },[url]
     )
-    console.log("resulting list: ", list);
+    // console.log("resulting list: ", list);
 
 
     return(list)
